@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PlugNPlay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 5rem;">
+            <a class="navbar-brand" href="/">PlugNPlay</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#videos">Watchlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#contact">Contact</a>
+                    </li>
+                    <li class="nav-item" style="margin: 0 20px 0 10px;">
+                        <button class="btn btn-primary">
+                            <a class="btn-login" href="/login">Login</a>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary">
+                            <a class="btn-login" href="register">Signup</a>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container" id="videos" style="margin: -30px 0 0 50px;">
+        <div class="hero-image">
+            <h2><b>Welcome to SVIMS</b></h2>
+            <p style="text-align: justify;">We are a dedicated platform that provides a centralized hub for educational
+                and entertaining videos related to college life. Our goal is to showcase the talent, knowledge, and
+                creativity within our college community. With a vast collection of recorded lectures, tutorials,
+                student projects, and campus events, our platform caters to diverse academic and extracurricular
+                interests. Students and faculty can also upload and share their own videos, fostering peer-to-peer
+                learning and collaboration. We curate content from guest speakers and industry professionals,
+                offering unique perspectives to broaden horizons. Our user-friendly interface and search functionality
+                make it easy to discover relevant videos, accessible across various devices. We prioritize a safe and
+                respectful environment, ensuring uploaded content adheres to guidelines. Join our vibrant community as
+                we harness the power of video to shape the future of education within our college.</p>
+        </div>
+        <section>
+            <h2><b>Our Videos</b></h2>
+            {% for video in videos %}
+            <div class="row video-list">
+                <div>
+                    <video controls width="800" controlsList="nodownload">
+                        <source src="/media/{{ video.content }}" type="video/mp4">
+                    </video>
+                    <h4>{{ video.title }}</h4>
+                    <p style="text-align: justify; margin-top: 15px;">{{ video.description }}</p>
+                    <p><i><small>Upload time: {{ video.upload_time }}</small></i></p>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <div class="row">
+            <div class="col" id="about" style="margin-right: 80px;">
+                <h3>About <div class="line"><span></span></div>
+                </h3>
+                <p style="text-align: justify;">
+                    Welcome to PlugNPlay! We're a dedicated platform showcasing educational and entertaining videos
+                    related to college life. Discover lectures, tutorials, student projects, and campus events. Share
+                    your own videos, collaborate with peers, and explore diverse perspectives. Join us in shaping the
+                    future of education within our college community.
+                </p>
+            </div>
+            <div class="col" style="margin-right: 40px;">
+                <h3>Office <div class="line"><span></span></div>
+                </h3>
+                <p>Swami Vivekananda Institute of Modern Science - SVIMS</p>
+                <p>Karbala More, Sonarpur Station Road, P.S: Narendrapur, Kolkata: 700103</p>
+                <p class="email">plugnplay150523@mail.com</p>
+            </div>
+            <div class="col" id="contact">
+                <h3>Contact<div class="line"><span></span></div>
+                </h3>
+                <form>
+                    <i class="fa-solid fa-envelope"></i>
+                    &nbsp;&nbsp;
+                    <input type="email" placeholder="Enter your email id" required>
+                    <button><i class="fa-sharp fa-solid fa-arrow-right"></i></button>
+                </form>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/svgiofficial" target="_blank"><i
+                            class="fa-brands fa-facebook-f"></i></a>
+                    <a target="_blank" href="https://twitter.com/svistofficial"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/swami_vivekananda_group/" target="_blank"><i
+                            class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="copy">PlugNPlay © 2023 - All Rights Reserved</p>
+    </footer>
+</body>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    footer {
+        width: 100%;
+
+        position: absolute;
+        background: linear-gradient(to right, rgb(37 39 42), rgb(83, 94, 109));
+        color: #fff;
+        padding: 100px 0 30px;
+        /* border-top-left-radius: 125px;*/
+        font-size: 13px;
+        line-height: 20px;
+        margin-top: 5rem;
+    }
+
+    .row {
+        width: 85%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .col {
+        flex-basis: 25%;
+        padding: 10px;
+    }
+
+    .col:nth-child(2),
+    col:nth-child(3) {
+        flex-basis: 15%;
+    }
+
+    .col h3 {
+        width: fit-content;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .email {
+        width: fit-content;
+        border-bottom: 1px solid #ccc;
+        margin: 20px 0;
+    }
+
+    ul li {
+        list-style: none;
+        margin-bottom: 12px;
+    }
+
+    ul li a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    form {
+        padding-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ece9e9;
+        margin-bottom: 50px;
+    }
+
+    form .far {
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    form input {
+        width: 100%;
+        background: transparent;
+        color: white;
+        border: 0;
+        outline: none;
+    }
+
+    form button {
+        background: transparent;
+        border: 0;
+        outline: none;
+        cursor: pointer;
+    }
+
+    form .fa-sharp {
+        font-size: 16px;
+        color: #ccc;
+    }
+
+    .social-media .fa-brands {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        font-size: 20px;
+        color: #000;
+        background: #fff;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    hr {
+        width: 90%;
+        border: 0;
+        border-bottom: 1px solid #ccc;
+        margin: 20px auto;
+    }
+
+    .copy {
+        text-align: center;
+    }
+
+    .line {
+        width: 100%;
+        height: 5xp;
+        background: white;
+        border-radius: 3px;
+        position: absolute;
+        top: 25px;
+        left: 0;
+    }
+
+    @media (max-width: 700px) {
+        footer {
+            bottom: unset;
+        }
+
+        .col {
+            flex-basis: 100%;
+
+        }
+
+        .col:nth-child(2),
+        col:nth-child(3) {
+            flex-basis: 100%;
+        }
+    }
+
+    .btn-login {
+        text-decoration: none;
+    }
+
+    .btn-login:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    video {
+        margin: 30px 0 10px 0;
+    }
+</style>
+
+</html>
