@@ -11,13 +11,10 @@
 
 ## Gmail
 
-```bash
-  plugnplay150523@gmail.com
-```
-
-Password: `ourmajorproject`
+- Email: `plugnplay150523@gmail.com`
+- Password: `ourmajorproject`
 
 ## GitHub
 
-Username: `plug-n-play-23`
-Password: `ourmajorproject`
+- Username: `plug-n-play-23`
+- Password: `ourmajorproject`
