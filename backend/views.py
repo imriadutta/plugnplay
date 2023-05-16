@@ -68,8 +68,8 @@ def register(request):
             context['msg'] = "Already registered email! Try with new one."
         else:
             if password == cpassword:
-                OTP = generateOTP()
-                sendOTP(OTP)
+                # OTP = generateOTP()
+                # sendOTP(OTP)
 
                 user = User.objects.create(
                     fullname=fullname,
