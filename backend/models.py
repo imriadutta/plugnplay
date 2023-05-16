@@ -7,3 +7,16 @@ class Video(models.Model):
     description = models.TextField()
     upload_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class User(models.Model):
+    fullname = models.CharField(max_length=100)
+    email = models.EmailField()
+    password = models.CharField(max_length=50)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

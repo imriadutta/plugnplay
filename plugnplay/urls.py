@@ -23,6 +23,14 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
+    path('register', register),
+    path('login', login),
+    path('logout', logout),
+    path('admin-panel', admin_panel),
+    path('admin-panel/upload-video', upload_video),
+    path('admin-panel/edit-video/<int:id>', edit_video),
+    path('admin-panel/delete-video/<int:id>', delete_video),
 ]
 
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

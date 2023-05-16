@@ -55,7 +55,7 @@ ROOT_URLCONF = 'plugnplay.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['frontend'],
+        'DIRS': ['frontend/template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,6 +84,17 @@ DATABASES = {
         'PASSWORD': 'DgAs02yfeCrazAvfKAdy',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'NAME': 'plugnplay',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#     }
+# }
 
 
 # Password validation
@@ -122,9 +133,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR, "frontend/static"
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR, "frontend/static"
+]
 
 STATIC_ROOT = "assets/"
 

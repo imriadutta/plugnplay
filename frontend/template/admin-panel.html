@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | PlugNPlay</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="static/image/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    &nbsp;<i class="fa-solid fa-headphones"></i>
+                    &nbsp;PlugNPlay
+                </a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/admin-panel#videos">Videos</a></li>
+                <li><a href="/admin-panel#users">Users</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="/admin-panel/upload-video">Upload Video</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-9 col-md-10 main">
+                <h1>Dashboard</h1>
+                <p>Welcome to the admin panel for PlugNPlay.</p>
+
+                <h2>Videos</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Video content</th>
+                                <th>Upload time</th>
+                                <th>Last update time</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for video in videos %}
+                            <tr>
+                                <td>{{ video.title }}</td>
+                                <td>
+                                    <video controls width="200">
+                                        <source src="/media/{{ video.content }}" type="video/mp4">
+                                    </video>
+                                </td>
+                                <td>{{ video.upload_time }}</td>
+                                <td>{{ video.update_time }}</td>
+                                <td>
+                                    <a href="/admin-panel/edit-video/{{ video.id }}">
+                                        <button class="btn" style="background-color: rgb(37 39 42); color: white;">
+                                            Edit
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/admin-panel/delete-video/{{ video.id }}">
+                                        <button class="btn" style="background-color: rgb(37 39 42); color: white;">
+                                            Delete
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="users">Users</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Full name</th>
+                                <th>Email</th>
+                                <th>Registered date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.fullname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.create_time }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

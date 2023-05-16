@@ -7,12 +7,13 @@
 - JavaScript
 - PHP
 - MySQL
-- Python (Django)
+- Python
 
 ## Gmail
 
 - Email: `plugnplay150523@gmail.com`
 - Password: `ourmajorproject`
+- App password: `ljaxtrrnbqvhmdqw`
 
 ## GitHub
 

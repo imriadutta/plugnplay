@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register | PlugNPlay</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="shortcut icon" href="static/image/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    {% if msg %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ msg }}
+    </div>
+    {% endif %}
+
+    <div class="login-page">
+        <div class="form">
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                <input type="text" name="fullname" placeholder="Full name" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="password" name="password" placeholder="Password" required />
+                <input type="password" name="cpassword" placeholder="Confirm password" required />
+                <button>Register</button>
+                <p class="message">Already have account? <a href="/login">Login here</a></p>
+                <p class="message"><a href="/"><big>Back to home</big></a></p>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

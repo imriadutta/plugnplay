@@ -2,21 +2,25 @@
 <html>
 
 <head>
-    <title>PlugNPlay</title>
+    <title>Home | PlugNPlay</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 5rem;">
-            <a class="navbar-brand" href="/">PlugNPlay</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">
+                &nbsp;<i class="fa-solid fa-headphones"></i>
+                &nbsp;PlugNPlay
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNav" style="margin-top: 10px;">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="/">Home</a>
@@ -30,25 +34,46 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/#contact">Contact</a>
                     </li>
-                    <li class="nav-item" style="margin: 0 20px 0 10px;">
+                    {% if request.session.user == 'plugnplay150523@gmail.com' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin-panel">Admin Panel</a>
+                    </li>
+                    {% endif %}
+                    {% if request.session.user %}
+                    <li class="nav-item" style="margin-left: 10px;">
+                        <button class="btn btn-primary">
+                            <a class="btn-login" href="/logout">Logout</a>
+                        </button>
+                    </li>
+                    {% else %}
+                    <li class="nav-item" style="margin: 0 15px 0 10px;">
                         <button class="btn btn-primary">
                             <a class="btn-login" href="/login">Login</a>
                         </button>
                     </li>
                     <li class="nav-item">
                         <button class="btn btn-primary">
-                            <a class="btn-login" href="register">Signup</a>
+                            <a class="btn-login" href="/register">Register</a>
                         </button>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
     </header>
 
-    <main class="container" id="videos" style="margin: -30px 0 0 50px;">
+    {% if msg %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ msg }}
+    </div>
+    {% endif %}
+
+    <main class="container" style="margin-top: 3rem;">
         <div class="hero-image">
-            <h2><b>Welcome to SVIMS</b></h2>
-            <p style="text-align: justify;">We are a dedicated platform that provides a centralized hub for educational
+            <h2>Welcome to SVIMS video playing portal - <b>PlugNPlay</b></h2>
+            <p style="text-align: justify;">
+                We are a dedicated platform that provides a centralized hub for educational
                 and entertaining videos related to college life. Our goal is to showcase the talent, knowledge, and
                 creativity within our college community. With a vast collection of recorded lectures, tutorials,
                 student projects, and campus events, our platform caters to diverse academic and extracurricular
@@ -57,19 +82,21 @@
                 offering unique perspectives to broaden horizons. Our user-friendly interface and search functionality
                 make it easy to discover relevant videos, accessible across various devices. We prioritize a safe and
                 respectful environment, ensuring uploaded content adheres to guidelines. Join our vibrant community as
-                we harness the power of video to shape the future of education within our college.</p>
+                we harness the power of video to shape the future of education within our college.
+            </p>
         </div>
-        <section>
+        <section id="videos">
             <h2><b>Our Videos</b></h2>
             {% for video in videos %}
             <div class="row video-list">
                 <div>
-                    <video controls width="800" controlsList="nodownload">
+                    <video controls height="500" controlsList="nodownload">
                         <source src="/media/{{ video.content }}" type="video/mp4">
                     </video>
                     <h4>{{ video.title }}</h4>
                     <p style="text-align: justify; margin-top: 15px;">{{ video.description }}</p>
                     <p><i><small>Upload time: {{ video.upload_time }}</small></i></p>
+                    <p><i><small>Last update time: {{ video.update_time }}</small></i></p>
                 </div>
             </div>
             {% endfor %}
@@ -91,9 +118,15 @@
             <div class="col" style="margin-right: 40px;">
                 <h3>Office <div class="line"><span></span></div>
                 </h3>
-                <p>Swami Vivekananda Institute of Modern Science - SVIMS</p>
-                <p>Karbala More, Sonarpur Station Road, P.S: Narendrapur, Kolkata: 700103</p>
-                <p class="email">plugnplay150523@mail.com</p>
+                <p><i class="fa-solid fa-star"></i>&nbsp;&nbsp;
+                    Swami Vivekananda Institute of Modern Science - SVIMS
+                </p>
+                <p><i class="fa-solid fa-map-marker"></i>&nbsp;&nbsp;&nbsp;
+                    Karbala More, Sonarpur Station Road, P.S: Narendrapur, Kolkata: 700103
+                </p>
+                <p><i class="fa-solid fa-envelope-open"></i>&nbsp;&nbsp;
+                    <span class="email">plugnplay150523@mail.com</span>
+                </p>
             </div>
             <div class="col" id="contact">
                 <h3>Contact<div class="line"><span></span></div>
@@ -127,7 +160,6 @@
 
     footer {
         width: 100%;
-
         position: absolute;
         background: linear-gradient(to right, rgb(37 39 42), rgb(83, 94, 109));
         color: #fff;
@@ -274,6 +306,24 @@
 
     video {
         margin: 30px 0 10px 0;
+    }
+
+    .alert {
+        padding: 20px;
+        background-color: rgb(37 39 42);
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
     }
 </style>
 
