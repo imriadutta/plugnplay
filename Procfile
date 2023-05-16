@@ -1,0 +1,1 @@
+web: gunicorn plugnplay.wsgi --log-file -
