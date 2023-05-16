@@ -1,32 +1,21 @@
 from django.shortcuts import render, redirect
 from backend.models import *
 from datetime import datetime
+import smtplib
+import math
+import random
 
-context = {
-    'users': User.objects.all().order_by('create_time'),
-    'videos': Video.objects.all().order_by('-upload_time'),
-    'msg': '',
-}
-
-
-def context_update(func):
-    def modified_func(*args, **kwargs):
-        context = {
-            'users': User.objects.all().order_by('create_time'),
-            'videos': Video.objects.all().order_by('-upload_time'),
-            'msg': '',
-        }
-        return func(*args, **kwargs)
-    return modified_func
+context = dict()
 
 
-@context_update
 def home(request):
+    context['msg'] = ''
+    context['videos'] = Video.objects.all().order_by('-upload_time')
     return render(request, 'index.html', context)
 
 
-@context_update
 def login(request):
+    context['msg'] = ''
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -45,8 +34,30 @@ def login(request):
     return render(request, 'login.html', context)
 
 
-@context_update
+def generateOTP():
+    digits = "0123456789"
+    OTP = ""
+    for i in range(4):
+        OTP += digits[math.floor(random.random() * 10)]
+    return OTP
+
+
+def sendOTP(OTP):
+    email_sender = 'riaduttademo@gmail.com'
+    email_password = 'wokvndvsrmufesgz'
+    email_receiver = user.email
+
+    subject = 'Reset Password'
+    body = "The OTP for reseting your password is " + OTP
+
+    s = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    s.login(email_sender, email_password)
+    s.sendmail(email_sender, email_receiver, body)
+    s.quit()
+
+
 def register(request):
+    context['msg'] = ''
     if request.method == 'POST':
         fullname = request.POST.get('fullname')
         email = request.POST.get('email')
@@ -57,10 +68,13 @@ def register(request):
             context['msg'] = "Already registered email! Try with new one."
         else:
             if password == cpassword:
+                OTP = generateOTP()
+                sendOTP(OTP)
+
                 user = User.objects.create(
                     fullname=fullname,
                     email=email,
-                    password=password
+                    password=password,
                 )
                 user.save()
                 request.session['user'] = email
@@ -72,24 +86,26 @@ def register(request):
     return render(request, 'register.html', context)
 
 
-@context_update
 def logout(request):
     request.session['user'] = ''
+    context['videos'] = Video.objects.all().order_by('-upload_time')
     context['msg'] = "Successfully logged out!"
     return render(request, 'index.html', context)
 
 
-@context_update
 def admin_panel(request):
+    context['msg'] = ''
     if request.session.get('user') == 'plugnplay150523@gmail.com':
+        context['users'] = User.objects.all().order_by('create_time')
+        context['videos'] = Video.objects.all().order_by('-upload_time')
         return render(request, 'admin-panel.html', context)
     else:
         context['msg'] = "You do not have access!"
-        return render(request, 'index.html', context)
+    return render(request, 'index.html', context)
 
 
-@context_update
 def upload_video(request):
+    context['msg'] = ''
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
@@ -101,14 +117,13 @@ def upload_video(request):
             content=content,
         )
         video.save()
-
         context['msg'] = "Successfully video uploaded."
 
     return render(request, 'upload-video.html', context)
 
 
-@context_update
 def edit_video(request, id):
+    context['msg'] = ''
     video = Video.objects.get(id=id)
     context['video'] = video
 
@@ -125,14 +140,11 @@ def edit_video(request, id):
             video.content = content
 
         video.save()
-
         context['msg'] = "Successfully video updated."
-        context['videos'] = Video.objects.all().order_by('-upload_time')
 
     return render(request, 'edit-video.html', context)
 
 
-@context_update
 def delete_video(request, id):
     video = Video.objects.get(id=id)
     video.delete()
