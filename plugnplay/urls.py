@@ -24,12 +24,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('register', register),
+    path('sendOTP', sendOTP),
+    path('confirmOTP',confirmOTP),
     path('login', login),
     path('logout', logout),
     path('admin-panel', admin_panel),
-    path('admin-panel/upload-video', upload_video),
     path('admin-panel/edit-video/<int:id>', edit_video),
     path('admin-panel/delete-video/<int:id>', delete_video),
+    path('admin-panel/upload-video', upload_video),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

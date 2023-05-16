@@ -5,25 +5,28 @@
     <title>Register | PlugNPlay</title>
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="shortcut icon" href="static/image/favicon.ico" type="image/x-icon">
+
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body>
 
-    {% if msg %}
     <div class="alert">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        {{ msg }}
+        <p id="otp-msg"></p>
     </div>
-    {% endif %}
 
     <div class="login-page">
         <div class="form">
-            <form method="post" class="login-form">
+            <form id="post-form" class="login-form">
                 {% csrf_token %}
-                <input type="text" name="fullname" placeholder="Full name" required />
-                <input type="email" name="email" placeholder="Email" required />
-                <input type="password" name="password" placeholder="Password" required />
-                <input type="password" name="cpassword" placeholder="Confirm password" required />
+                <input type="text" name="fullname" placeholder="Full name" id="fullname" class="next" required />
+                <input type="email" name="email" placeholder="Email" id="email" class="next" required />
+                <input type="password" name="password" placeholder="Password" id="password" class="next" required />
+                <input type="password" name="cpassword" placeholder="Confirm password" id="cpassword" class="next"
+                    required />
+                <input type="text" name="otp" placeholder="OTP" id="otp" />
                 <button>Register</button>
                 <p class="message">Already have account? <a href="/login">Login here</a></p>
                 <p class="message"><a href="/"><big>Back to home</big></a></p>
@@ -31,5 +34,14 @@
         </div>
     </div>
 </body>
+
+<style>
+    #otp,
+    .alert {
+        display: none;
+    }
+</style>
+
+<script src="static/js/script.js"></script>
 
 </html>

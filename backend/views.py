@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from backend.models import *
 from datetime import datetime
 import smtplib
+from email.message import EmailMessage
 import math
 import random
 
@@ -42,48 +43,64 @@ def generateOTP():
     return OTP
 
 
-def sendOTP(OTP):
-    email_sender = 'riaduttademo@gmail.com'
-    email_password = 'wokvndvsrmufesgz'
-    email_receiver = user.email
+def sendOTP(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    cpassword = request.POST.get('cpassword')
 
-    subject = 'Reset Password'
-    body = "The OTP for reseting your password is " + OTP
+    if User.objects.filter(email=email):
+        return HttpResponse(-1)
+    else:
+        if password == cpassword:
+            OTP = generateOTP()
 
-    s = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    s.login(email_sender, email_password)
-    s.sendmail(email_sender, email_receiver, body)
-    s.quit()
+            email_sender = 'plugnplay150523@gmail.com'
+            email_password = 'ljaxtrrnbqvhmdqw'
+
+            message = EmailMessage()
+            message['Reply-to'] = email_sender
+            message['From'] = email_sender
+            message['To'] = email
+            message['Subject'] = 'Email Verification'
+
+            message.set_content("The OTP for verifing your email is " + OTP)
+            s = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+
+            try:
+                s.login(email_sender, email_password)
+                s.sendmail(email_sender, email, message.as_string())
+                s.quit()
+            except Exception as e:
+                print('Email: ', e)
+
+            return HttpResponse(OTP)
+        else:
+            return HttpResponse(-2)
 
 
-def register(request):
-    context['msg'] = ''
-    if request.method == 'POST':
+def confirmOTP(request):
+    otp = request.POST.get("otp")
+    otp_gen = request.POST.get("otp_gen")
+
+    if otp == otp_gen:
         fullname = request.POST.get('fullname')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        cpassword = request.POST.get('cpassword')
 
-        if User.objects.filter(email=email):
-            context['msg'] = "Already registered email! Try with new one."
-        else:
-            if password == cpassword:
-                # OTP = generateOTP()
-                # sendOTP(OTP)
+        user = User.objects.create(
+            fullname=fullname,
+            email=email,
+            password=password,
+        )
+        user.save()
 
-                user = User.objects.create(
-                    fullname=fullname,
-                    email=email,
-                    password=password,
-                )
-                user.save()
-                request.session['user'] = email
-                context['msg'] = "Email registered. Successfully logged in!"
-                return render(request, 'index.html', context)
-            else:
-                context['msg'] = "Passwords not matched. Try again!"
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
 
-    return render(request, 'register.html', context)
+
+def register(request):
+    return render(request, 'register.html')
 
 
 def logout(request):
