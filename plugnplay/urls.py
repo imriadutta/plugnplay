@@ -18,14 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from backend.views import *
 from django.conf.urls.static import static
-from django.conf import settings
+# from django.conf import settings
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('register', register),
     path('sendOTP', sendOTP),
-    path('confirmOTP',confirmOTP),
+    path('confirmOTP', confirmOTP),
     path('login', login),
     path('logout', logout),
     path('admin-panel', admin_panel),

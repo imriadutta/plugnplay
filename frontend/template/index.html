@@ -34,7 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/#contact">Contact</a>
                     </li>
-                    {% if request.session.user == 'plugnplay150523@gmail.com' %}
+                    {% if request.session.is_admin == True %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin-panel">Admin Panel</a>
                     </li>

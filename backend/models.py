@@ -17,6 +17,7 @@ class User(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=50)
     create_time = models.DateTimeField(auto_now_add=True)
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email

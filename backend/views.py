@@ -6,6 +6,7 @@ from email.message import EmailMessage
 import math
 import random
 
+
 context = dict()
 
 
@@ -21,10 +22,11 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = User.objects.filter(email=email)
+        user = User.objects.get(email=email)
         if user:
-            if user.last().password == password:
+            if user.password == password:
                 request.session['user'] = email
+                request.session['is_admin'] = user.is_admin
                 context['msg'] = "Successfully logged in!"
                 return render(request, 'index.html', context)
             else:
@@ -105,6 +107,7 @@ def register(request):
 
 def logout(request):
     request.session['user'] = ''
+    request.session['is_admin'] = ''
     context['videos'] = Video.objects.all().order_by('-upload_time')
     context['msg'] = "Successfully logged out!"
     return render(request, 'index.html', context)
@@ -112,7 +115,8 @@ def logout(request):
 
 def admin_panel(request):
     context['msg'] = ''
-    if request.session.get('user') == 'plugnplay150523@gmail.com':
+    user = User.objects.filter(email=request.session.get('user')).first()
+    if user and user.is_admin == True:
         context['users'] = User.objects.all().order_by('create_time')
         context['videos'] = Video.objects.all().order_by('-upload_time')
         return render(request, 'admin-panel.html', context)
@@ -123,50 +127,66 @@ def admin_panel(request):
 
 def upload_video(request):
     context['msg'] = ''
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        content = request.POST.get('content')
+    user = User.objects.filter(email=request.session.get('user')).first()
+    if user and user.is_admin == True:
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            description = request.POST.get('description')
+            content = request.POST.get('content')
 
-        video = Video.objects.create(
-            title=title,
-            description=description,
-            content=content,
-        )
-        video.save()
-        context['msg'] = "Successfully video uploaded."
+            video = Video.objects.create(
+                title=title,
+                description=description,
+                content=content,
+            )
+            video.save()
+            context['msg'] = "Successfully video uploaded."
 
-    return render(request, 'upload-video.html', context)
+        return render(request, 'upload-video.html', context)
+    else:
+        context['msg'] = "You do not have access!"
+    return render(request, 'index.html', context)
 
 
 def edit_video(request, id):
     context['msg'] = ''
-    video = Video.objects.get(id=id)
-    context['video'] = video
+    user = User.objects.filter(email=request.session.get('user')).first()
+    if user and user.is_admin == True:
+        video = Video.objects.get(id=id)
+        context['video'] = video
 
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        content = request.POST.get('content')
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            description = request.POST.get('description')
+            content = request.POST.get('content')
 
-        if title != '':
-            video.title = title
-        if description != '':
-            video.description = description
-        if content != '':
-            video.content = content
+            if title != '':
+                video.title = title
+            if description != '':
+                video.description = description
+            if content != '':
+                video.content = content
 
-        video.save()
-        context['msg'] = "Successfully video updated."
+            video.save()
+            context['msg'] = "Successfully video updated."
 
-    return render(request, 'edit-video.html', context)
+        return render(request, 'edit-video.html', context)
+    else:
+        context['msg'] = "You do not have access!"
+    return render(request, 'index.html', context)
 
 
 def delete_video(request, id):
-    video = Video.objects.get(id=id)
-    video.delete()
+    context['msg'] = ''
+    user = User.objects.filter(email=request.session.get('user')).first()
+    if user and user.is_admin == True:
+        video = Video.objects.get(id=id)
+        video.delete()
 
-    context['msg'] = "Successfully video deleted."
-    context['videos'] = Video.objects.all().order_by('-upload_time')
+        context['msg'] = "Successfully video deleted."
+        context['videos'] = Video.objects.all().order_by('-upload_time')
 
-    return render(request, 'admin-panel.html', context)
+        return render(request, 'admin-panel.html', context)
+    else:
+        context['msg'] = "You do not have access!"
+    return render(request, 'index.html', context)
