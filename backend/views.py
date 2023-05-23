@@ -22,7 +22,7 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = User.objects.get(email=email)
+        user = User.objects.filter(email=email).first()
         if user:
             if user.password == password:
                 request.session['user'] = email
