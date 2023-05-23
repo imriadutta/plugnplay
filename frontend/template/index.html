@@ -90,7 +90,7 @@
             {% for video in videos %}
             <div class="row video-list">
                 <div>
-                    <video controls height="500" width="800" controlsList="nodownload">
+                    <video controls height="500" controlsList="nodownload">
                         <source src="/media/{{ video.content }}" type="video/mp4">
                     </video>
                     <h4>{{ video.title }}</h4>
