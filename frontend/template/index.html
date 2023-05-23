@@ -41,20 +41,20 @@
                     {% endif %}
                     {% if request.session.user %}
                     <li class="nav-item" style="margin-left: 10px;">
-                        <button class="btn btn-primary">
-                            <a class="btn-login" href="/logout">Logout</a>
-                        </button>
+                        <a class="btn-login" href="/logout">
+                            <button class="btn btn-primary">Logout</button>
+                        </a>
                     </li>
                     {% else %}
                     <li class="nav-item" style="margin: 0 15px 0 10px;">
-                        <button class="btn btn-primary">
-                            <a class="btn-login" href="/login">Login</a>
-                        </button>
+                        <a class="btn-login" href="/login">
+                            <button class="btn btn-primary">Login</button>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-primary">
-                            <a class="btn-login" href="/register">Register</a>
-                        </button>
+                        <a class="btn-login" href="/register">
+                            <button class="btn btn-primary">Register</button>
+                        </a>
                     </li>
                     {% endif %}
                 </ul>
@@ -90,7 +90,7 @@
             {% for video in videos %}
             <div class="row video-list">
                 <div>
-                    <video controls height="500" controlsList="nodownload">
+                    <video controls height="500" width="800" controlsList="nodownload">
                         <source src="/media/{{ video.content }}" type="video/mp4">
                     </video>
                     <h4>{{ video.title }}</h4>
