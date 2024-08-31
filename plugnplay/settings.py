@@ -80,27 +80,27 @@ WSGI_APPLICATION = 'plugnplay.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'NAME': 'railway',
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'containers-us-west-16.railway.app',
-        'PORT': '6266',
-        'USER': 'root',
-        'PASSWORD': 'BTsxbVTsT3gu865DJA1d',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'NAME': 'plugnplay',
+#         'NAME': 'railway',
 #         'ENGINE': 'django.db.backends.mysql',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
+#         'HOST': 'containers-us-west-16.railway.app',
+#         'PORT': '6266',
 #         'USER': 'root',
-#         'PASSWORD': 'root',
+#         'PASSWORD': 'BTsxbVTsT3gu865DJA1d',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'NAME': 'plugnplay',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'root',
+    }
+}
 
 
 # Password validation
